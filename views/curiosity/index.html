@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>好奇心 · 观察站</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <div class="starfield" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <header class="console-head">
+      <div class="head-left">
+        <div class="emblem">CURIOSITY</div>
+        <div class="head-title">
+          <h1>好奇心 <span class="sub-label">观察站 v1.1</span></h1>
+          <div class="head-sub">本鱼自己上网翻东西，看见有意思的就攒着，攒够了讲给你听</div>
+        </div>
+      </div>
+      <div class="head-right">
+        <span class="beacon" id="beacon"></span>
+        <span class="head-status" id="statusLine">正在连接…</span>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="console">指挥舱</button>
+      <button class="tab" data-tab="finds">藏品库</button>
+      <button class="tab" data-tab="logs">航行日志</button>
+      <span class="tabs-spacer"></span>
+      <span class="pill" id="pillQueue">待讲 0 条</span>
+      <button class="btn-ghost btn-tiny" id="btnRefresh">刷新</button>
+    </nav>
+
+    <main>
+      <!-- ==================== 指挥舱 ==================== -->
+      <section class="panel active" id="panel-console">
+        <div class="deck">
+          <span class="deck-label">参数</span>
+          <div class="deck-kv" id="statusKv">读取中…</div>
+        </div>
+
+        <!-- 四块大读数 -->
+        <div class="gauges">
+          <div class="gauge">
+            <div class="gauge-num" id="gReady">0</div>
+            <div class="gauge-lab">待讲</div>
+          </div>
+          <div class="gauge">
+            <div class="gauge-num" id="gTotal">0</div>
+            <div class="gauge-lab">库存总计</div>
+          </div>
+          <div class="gauge">
+            <div class="gauge-num" id="gDelivered">0</div>
+            <div class="gauge-lab">已讲过</div>
+          </div>
+          <div class="gauge">
+            <div class="gauge-num" id="gRuns">0</div>
+            <div class="gauge-lab">扫描轮次</div>
+          </div>
+        </div>
+
+        <!-- 充能条 -->
+        <div class="card charge-card">
+          <div class="card-head">
+            <h2>让讲门限</h2>
+            <span class="card-note" id="gLastRun">还没扫过</span>
+          </div>
+          <div class="charge">
+            <div class="charge-bar" id="gBar"></div>
+          </div>
+          <div class="charge-label" id="gBarLabel">0 / 4 条</div>
+          <div class="charge-topic">上一轮方向：<span id="gLastTopic">—</span></div>
+        </div>
+
+        <!-- 任务简报 -->
+        <div class="card">
+          <div class="card-head">
+            <h2>任务简报</h2>
+            <span class="card-note">它现在照什么在翻</span>
+          </div>
+          <div class="brief" id="briefBody">读取中…</div>
+        </div>
+
+        <!-- 手动操盘 -->
+        <div class="card">
+          <div class="card-head">
+            <h2>手动操盘</h2>
+            <span class="card-note">平时不用点，定时器自己跑</span>
+          </div>
+
+          <div class="op-row">
+            <label class="op-label">方向（留空=随机挑一个）</label>
+            <div class="input-row">
+              <input id="topicInput" type="text" placeholder="比如：太空探索 / 冷门科学发现" autocomplete="off" />
+              <button class="btn-solid" id="btnScan">立刻扫一轮</button>
+            </div>
+            <div class="op-note" id="scanResult"></div>
+          </div>
+
+          <div class="op-sep"></div>
+
+          <div class="op-row">
+            <label class="op-label">强行让它现在讲一次</label>
+            <div class="input-row">
+              <button class="btn-outline" id="btnTell">提炼并发送</button>
+            </div>
+            <div class="op-note" id="tellResult"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 藏品库 ==================== -->
+      <section class="panel" id="panel-finds">
+        <div class="card">
+          <div class="card-head">
+            <h2>藏品库</h2>
+            <div class="head-actions">
+              <span class="card-note" id="findsCount">0 条存档</span>
+              <button class="btn-ghost btn-tiny" id="btnReloadFinds">重读</button>
+            </div>
+          </div>
+          <div class="input-row">
+            <input id="findQ" type="text" placeholder="按标题 / 摘要 / 方向筛…" autocomplete="off" />
+          </div>
+          <div class="finds" id="findsList">
+            <div class="empty">读取中…</div>
+          </div>
+          <div class="more-row" id="findsMore" hidden>
+            <button class="btn-ghost">再看一些</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 航行日志 ==================== -->
+      <section class="panel" id="panel-logs">
+        <div class="card">
+          <div class="card-head">
+            <h2>航行日志</h2>
+            <div class="head-actions">
+              <button class="btn-ghost btn-tiny" id="btnReloadLogs">重读</button>
+            </div>
+          </div>
+          <div class="logs" id="logsBody">
+            <div class="empty">读取中…</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>好奇心观察站 · v1.1.0</span>
+      <span class="foot-dots">◦ ◦ ◦</span>
+      <span>检索靠千帆，嘴是它自己的</span>
+    </footer>
+
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>

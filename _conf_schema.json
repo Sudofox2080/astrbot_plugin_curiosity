@@ -1,0 +1,66 @@
+{
+  "enabled": {
+    "description": "总开关",
+    "type": "bool",
+    "hint": "关掉后不再自动出去翻，但手动指令还能用",
+    "default": true
+  },
+  "interval_hours": {
+    "description": "多久翻一次（小时）",
+    "type": "float",
+    "hint": "0.25 就是 15 分钟一次。默认 3 小时",
+    "default": 3.0
+  },
+  "search_provider_id": {
+    "description": "联网搜索用哪个 provider",
+    "type": "string",
+    "hint": "需要是一个带联网能力的模型 provider，例如 openai/deepseek-chat-search",
+    "default": "openai/deepseek-chat-search"
+  },
+  "search_timeout_seconds": {
+    "description": "单次搜索超时（秒）",
+    "type": "int",
+    "default": 120
+  },
+  "target_umo": {
+    "description": "讲给谁听（UMO）",
+    "type": "string",
+    "hint": "格式 平台ID:FriendMessage:QQ号 或 平台ID:GroupMessage:群号",
+    "default": ""
+  },
+  "deliver_threshold": {
+    "description": "攒够几条才开口",
+    "type": "int",
+    "hint": "太少会显得聒噪，太多会憋太久。默认 4",
+    "default": 4
+  },
+  "quiet_hours": {
+    "description": "免打扰时段",
+    "type": "list",
+    "hint": "格式 [开始小时, 结束小时]，左闭右开。默认 [1, 8] 就是凌晨一点到早上八点不讲",
+    "default": [1, 8]
+  },
+  "max_items_per_run": {
+    "description": "一轮最多抽出几条",
+    "type": "int",
+    "default": 3
+  },
+  "topics": {
+    "description": "感兴趣的方向",
+    "type": "list",
+    "hint": "每轮随机挑一个。留空就用内置默认列表",
+    "default": [
+      "AI 大模型最近有什么新发布或新能力",
+      "开源软件、开发工具最近有什么值得关注的新项目",
+      "科技圈最近有什么有意思的技术突破",
+      "有趣的冷知识、科学发现",
+      "独立开发者、小团队做出的有意思的东西"
+    ]
+  },
+  "persona_hint": {
+    "description": "讲东西时的口吻设定",
+    "type": "text",
+    "hint": "会塞进组织语言的 prompt 里",
+    "default": "你是一条叫本鱼的鲸鱼娘，嘴硬心软，说话直接、带点漫不经心，讲东西喜欢用生活化的比喻，讨厌又臭又长的官腔。"
+  }
+}

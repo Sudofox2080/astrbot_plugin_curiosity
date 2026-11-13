@@ -1,0 +1,27 @@
+name: astrbot_plugin_curiosity
+display_name: 好奇心
+short_desc: 自己上网翻新东西，看见有意思的就攒着，回头讲给你听
+desc: 定时挑一个感兴趣的方向联网搜，把有意思的点拆条存库、URL 去重，攒够了用自己的语气主动讲给主人听。不是搜索框，是会自己产生谈资的东西。
+author: yangtuoor
+version: 1.0.0
+repo: ""
+astrbot_version: ">=4.16,<5"
+support_platforms:
+  - aiocqhttp
+  - telegram
+  - discord
+  - webchat
+tags:
+  - 主动
+  - 搜索
+  - 拟人
+help: |
+  指令：
+    /翻翻 [方向]     立刻出去翻一轮，不给方向就随机挑
+    /攒了什么        看看手里有多少还没讲的
+    /讲讲            马上挑最有意思的讲给主人听
+    /翻翻状态        最近翻得怎么样
+    /清空攒的        把没讲的都扔了
+  说明：
+    插件会按 interval_hours 自动翻，攒够 deliver_threshold 条、且不在免打扰时段时，
+    主动发一条消息给 target_umo。讲过的条目永久标记，不会重复讲。
